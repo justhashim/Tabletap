@@ -1,0 +1,33 @@
+{
+    "name": "tabletap",
+    "version": "1.0.0",
+    "description": "TableTap – Scan. Tap. Dine. QR-based restaurant ordering platform.",
+    "private": true,
+    "workspaces": [
+        "backend",
+        "frontend",
+        "admin-dashboard",
+        "kitchen-display"
+    ],
+    "scripts": {
+        "dev": "concurrently -n backend,frontend,admin,kitchen -c cyan,magenta,yellow,green \"npm run dev:backend\" \"npm run dev:frontend\" \"npm run dev:admin\" \"npm run dev:kitchen\"",
+        "dev:backend": "npm --workspace=backend run dev",
+        "dev:frontend": "npm --workspace=frontend run dev -- -p 3000",
+        "dev:admin": "npm --workspace=admin-dashboard run dev -- -p 3001",
+        "dev:kitchen": "npm --workspace=kitchen-display run dev -- -p 3002",
+        "build": "npm run build:backend && npm run build:frontend && npm run build:admin && npm run build:kitchen",
+        "build:backend": "npm --workspace=backend run build",
+        "build:frontend": "npm --workspace=frontend run build",
+        "build:admin": "npm --workspace=admin-dashboard run build",
+        "build:kitchen": "npm --workspace=kitchen-display run build",
+        "db:migrate": "psql $DATABASE_URL -f database/schema.sql",
+        "db:seed": "psql $DATABASE_URL -f database/seed.sql"
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.2"
+    },
+    "engines": {
+        "node": ">=18.0.0",
+        "npm": ">=9.0.0"
+    }
+}
